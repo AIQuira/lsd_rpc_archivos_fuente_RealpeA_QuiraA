@@ -17,7 +17,7 @@
 #endif
 
 static void
-autorizar_usuarios_1(struct svc_req *rqstp, register SVCXPRT *transp)
+administrar_modulos_1(struct svc_req *rqstp, register SVCXPRT *transp)
 {
 	union {
 		int seleccionarnumeromodulo_1_arg;
@@ -69,15 +69,15 @@ main (int argc, char **argv)
 {
 	register SVCXPRT *transp;
 
-	pmap_unset (autorizar_usuarios, autorizar_usuarios_version);
+	pmap_unset (administrar_modulos, administrar_modulos_version);
 
 	transp = svcudp_create(RPC_ANYSOCK);
 	if (transp == NULL) {
 		fprintf (stderr, "%s", "cannot create udp service.");
 		exit(1);
 	}
-	if (!svc_register(transp, autorizar_usuarios, autorizar_usuarios_version, autorizar_usuarios_1, IPPROTO_UDP)) {
-		fprintf (stderr, "%s", "unable to register (autorizar_usuarios, autorizar_usuarios_version, udp).");
+	if (!svc_register(transp, administrar_modulos, administrar_modulos_version, administrar_modulos_1, IPPROTO_UDP)) {
+		fprintf (stderr, "%s", "unable to register (administrar_modulos, administrar_modulos_version, udp).");
 		exit(1);
 	}
 
@@ -86,8 +86,8 @@ main (int argc, char **argv)
 		fprintf (stderr, "%s", "cannot create tcp service.");
 		exit(1);
 	}
-	if (!svc_register(transp, autorizar_usuarios, autorizar_usuarios_version, autorizar_usuarios_1, IPPROTO_TCP)) {
-		fprintf (stderr, "%s", "unable to register (autorizar_usuarios, autorizar_usuarios_version, tcp).");
+	if (!svc_register(transp, administrar_modulos, administrar_modulos_version, administrar_modulos_1, IPPROTO_TCP)) {
+		fprintf (stderr, "%s", "unable to register (administrar_modulos, administrar_modulos_version, tcp).");
 		exit(1);
 	}
 

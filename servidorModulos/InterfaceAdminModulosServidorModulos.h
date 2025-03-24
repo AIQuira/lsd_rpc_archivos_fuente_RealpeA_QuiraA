@@ -13,16 +13,15 @@
 extern "C" {
 #endif
 
-#define MAXIDENTIFICACION 10
 
 struct modulo {
-	int noModulo;
-	bool_t estado;
+	int numeroModulo;
+	int estado;
 };
 typedef struct modulo modulo;
 
-#define autorizar_usuarios 0x20000003
-#define autorizar_usuarios_version 1
+#define administrar_modulos 0x20000003
+#define administrar_modulos_version 1
 
 #if defined(__STDC__) || defined(__cplusplus)
 #define seleccionarNumeroModulo 1
@@ -31,7 +30,7 @@ extern  bool_t * seleccionarnumeromodulo_1_svc(int *, struct svc_req *);
 #define liberarModulo 2
 extern  bool_t * liberarmodulo_1(int *, CLIENT *);
 extern  bool_t * liberarmodulo_1_svc(int *, struct svc_req *);
-extern int autorizar_usuarios_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
+extern int administrar_modulos_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
 
 #else /* K&R C */
 #define seleccionarNumeroModulo 1
@@ -40,7 +39,7 @@ extern  bool_t * seleccionarnumeromodulo_1_svc();
 #define liberarModulo 2
 extern  bool_t * liberarmodulo_1();
 extern  bool_t * liberarmodulo_1_svc();
-extern int autorizar_usuarios_1_freeresult ();
+extern int administrar_modulos_1_freeresult ();
 #endif /* K&R C */
 
 /* the xdr functions */

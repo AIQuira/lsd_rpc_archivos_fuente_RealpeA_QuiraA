@@ -10,9 +10,9 @@ xdr_modulo (XDR *xdrs, modulo *objp)
 {
 	register int32_t *buf;
 
-	 if (!xdr_int (xdrs, &objp->noModulo))
+	 if (!xdr_int (xdrs, &objp->numeroModulo))
 		 return FALSE;
-	 if (!xdr_bool (xdrs, &objp->estado))
+	 if (!xdr_int (xdrs, &objp->estado))
 		 return FALSE;
 	return TRUE;
 }
