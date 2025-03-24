@@ -9,7 +9,7 @@ struct modulo{
 /*Definicion de las operaciones que se pueden realizar*/
 program administrar_modulos{
     version administrar_modulos_version{
-        bool seleccionarNumeroModulo(int noModulo)=1;
-        bool liberarModulo(int noModulo)=2;
+        int seleccionarNumeroModulo(int noModulo)=1;
+        int liberarModulo(int noModulo)=2;
     }=1;
 }=0x20000003;

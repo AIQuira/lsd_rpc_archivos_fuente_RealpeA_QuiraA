@@ -25,20 +25,20 @@ typedef struct modulo modulo;
 
 #if defined(__STDC__) || defined(__cplusplus)
 #define seleccionarNumeroModulo 1
-extern  bool_t * seleccionarnumeromodulo_1(int *, CLIENT *);
-extern  bool_t * seleccionarnumeromodulo_1_svc(int *, struct svc_req *);
+extern  int * seleccionarnumeromodulo_1(int *, CLIENT *);
+extern  int * seleccionarnumeromodulo_1_svc(int *, struct svc_req *);
 #define liberarModulo 2
-extern  bool_t * liberarmodulo_1(int *, CLIENT *);
-extern  bool_t * liberarmodulo_1_svc(int *, struct svc_req *);
+extern  int * liberarmodulo_1(int *, CLIENT *);
+extern  int * liberarmodulo_1_svc(int *, struct svc_req *);
 extern int administrar_modulos_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
 
 #else /* K&R C */
 #define seleccionarNumeroModulo 1
-extern  bool_t * seleccionarnumeromodulo_1();
-extern  bool_t * seleccionarnumeromodulo_1_svc();
+extern  int * seleccionarnumeromodulo_1();
+extern  int * seleccionarnumeromodulo_1_svc();
 #define liberarModulo 2
-extern  bool_t * liberarmodulo_1();
-extern  bool_t * liberarmodulo_1_svc();
+extern  int * liberarmodulo_1();
+extern  int * liberarmodulo_1_svc();
 extern int administrar_modulos_1_freeresult ();
 #endif /* K&R C */
 

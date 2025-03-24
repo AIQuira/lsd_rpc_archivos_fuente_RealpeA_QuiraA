@@ -6,48 +6,76 @@
 
 #include "InterfaceAdminModulosServidorModulos.h"
 
-
-void
-administrar_modulos_1(char *host)
+void administrar_modulos_1(char *host)
 {
 	CLIENT *clnt;
-	bool_t  *result_1;
-	int  seleccionarnumeromodulo_1_arg;
-	bool_t  *result_2;
-	int  liberarmodulo_1_arg;
+	int *result_1;
+	int numeroModulo;
+	int *result_2;
+	int liberarmodulo_1_arg;
 
-#ifndef	DEBUG
-	clnt = clnt_create (host, administrar_modulos, administrar_modulos_version, "udp");
-	if (clnt == NULL) {
-		clnt_pcreateerror (host);
-		exit (1);
+#ifndef DEBUG
+	clnt = clnt_create(host, administrar_modulos, administrar_modulos_version, "udp");
+	if (clnt == NULL)
+	{
+		clnt_pcreateerror(host);
+		exit(1);
 	}
-#endif	/* DEBUG */
+#endif /* DEBUG */
 
-	result_1 = seleccionarnumeromodulo_1(&seleccionarnumeromodulo_1_arg, clnt);
-	if (result_1 == (bool_t *) NULL) {
-		clnt_perror (clnt, "call failed");
-	}
-	result_2 = liberarmodulo_1(&liberarmodulo_1_arg, clnt);
-	if (result_2 == (bool_t *) NULL) {
-		clnt_perror (clnt, "call failed");
-	}
-#ifndef	DEBUG
-	clnt_destroy (clnt);
-#endif	 /* DEBUG */
+	printf("Admnistrador de modulos\n");
+	int opcion;
+
+	do
+	{
+		printf("===========    Menú   ===========\n");
+		printf("      1. Seleccionar modulo      \n");
+		printf("      2. Liberar modulo          \n");
+		printf("      3. Salir                   \n");
+		printf("===============    ==============\n");
+		scanf("%d", &opcion);
+		switch (opcion)
+		{
+		case 1:
+			printf("Ingrese el modulo a seleccionar: ");
+			scanf("%d", &numeroModulo);
+			result_1 = seleccionarnumeromodulo_1(&numeroModulo, clnt);
+			if (result_1 == (bool_t *)NULL)
+			{
+				clnt_perror(clnt, "call failed");
+			}
+			break;
+		case 2:
+			printf("Ingrese el modulo a liberar: ");
+			scanf("%d", &numeroModulo);
+			result_2 = liberarmodulo_1(&numeroModulo, clnt);
+			if (result_2 == (bool_t *)NULL)
+			{
+				clnt_perror(clnt, "call failed");
+			}
+			break;
+		case 3:
+			break;
+		default:
+			printf("Opcion no valida\n");
+			break;
+		}
+	} while (opcion != 3);
+#ifndef DEBUG
+	clnt_destroy(clnt);
+#endif /* DEBUG */
 }
 
-
-int
-main (int argc, char *argv[])
+int main(int argc, char *argv[])
 {
 	char *host;
 
-	if (argc < 2) {
-		printf ("usage: %s server_host\n", argv[0]);
-		exit (1);
+	if (argc < 2)
+	{
+		printf("usage: %s server_host\n", argv[0]);
+		exit(1);
 	}
 	host = argv[1];
-	administrar_modulos_1 (host);
-exit (0);
+	administrar_modulos_1(host);
+	exit(0);
 }

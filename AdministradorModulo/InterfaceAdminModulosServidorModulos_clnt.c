@@ -7,33 +7,33 @@
 #include "InterfaceAdminModulosServidorModulos.h"
 
 /* Default timeout can be changed using clnt_control() */
-static struct timeval TIMEOUT = { 25, 0 };
+static struct timeval TIMEOUT = {25, 0};
 
-bool_t *
-seleccionarnumeromodulo_1(int *argp, CLIENT *clnt)
+int *seleccionarnumeromodulo_1(int *argp, CLIENT *clnt)
 {
-	static bool_t clnt_res;
+	static int clnt_res;
 
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
-	if (clnt_call (clnt, seleccionarNumeroModulo,
-		(xdrproc_t) xdr_int, (caddr_t) argp,
-		(xdrproc_t) xdr_bool, (caddr_t) &clnt_res,
-		TIMEOUT) != RPC_SUCCESS) {
+	if (clnt_call(clnt, seleccionarNumeroModulo,
+				  (xdrproc_t)xdr_int, (caddr_t)argp,
+				  (xdrproc_t)xdr_int, (caddr_t)&clnt_res,
+				  TIMEOUT) != RPC_SUCCESS)
+	{
 		return (NULL);
 	}
 	return (&clnt_res);
 }
 
-bool_t *
-liberarmodulo_1(int *argp, CLIENT *clnt)
+int *liberarmodulo_1(int *argp, CLIENT *clnt)
 {
-	static bool_t clnt_res;
+	static int clnt_res;
 
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
-	if (clnt_call (clnt, liberarModulo,
-		(xdrproc_t) xdr_int, (caddr_t) argp,
-		(xdrproc_t) xdr_bool, (caddr_t) &clnt_res,
-		TIMEOUT) != RPC_SUCCESS) {
+	if (clnt_call(clnt, liberarModulo,
+				  (xdrproc_t)xdr_int, (caddr_t)argp,
+				  (xdrproc_t)xdr_int, (caddr_t)&clnt_res,
+				  TIMEOUT) != RPC_SUCCESS)
+	{
 		return (NULL);
 	}
 	return (&clnt_res);

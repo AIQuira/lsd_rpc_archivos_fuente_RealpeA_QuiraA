@@ -6,13 +6,13 @@
 #include "InterfaceAdminModulosServidorModulos.h"
 
 bool_t
-xdr_modulo (XDR *xdrs, modulo *objp)
+xdr_modulo(XDR *xdrs, modulo *objp)
 {
 	register int32_t *buf;
 
-	 if (!xdr_int (xdrs, &objp->numeroModulo))
-		 return FALSE;
-	 if (!xdr_int (xdrs, &objp->estado))
-		 return FALSE;
+	if (!xdr_int(xdrs, &objp->numeroModulo))
+		return FALSE;
+	if (!xdr_int(xdrs, &objp->estado))
+		return FALSE;
 	return TRUE;
 }
