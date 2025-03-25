@@ -37,21 +37,47 @@ void administrar_modulos_1(char *host)
 		switch (opcion)
 		{
 		case 1:
-			printf("Ingrese el modulo a seleccionar: ");
+			printf("Ingrese el modulo a seleccionar (1, 2 o 3): ");
 			scanf("%d", &numeroModulo);
+			if (numeroModulo < 1 || numeroModulo > 3)
+			{
+				printf("Número de módulo inválido. Debe ser 1, 2 o 3.\n");
+				break;
+			}
 			result_1 = seleccionarnumeromodulo_1(&numeroModulo, clnt);
 			if (result_1 == (bool_t *)NULL)
 			{
 				clnt_perror(clnt, "call failed");
 			}
+			else if (*result_1 == 1)
+			{
+				printf("El módulo %d ya se encuentra ocupado.\n", numeroModulo);
+			}
+			else
+			{
+				printf("Módulo %d asignado correctamente. \n", numeroModulo);
+			}
 			break;
 		case 2:
 			printf("Ingrese el modulo a liberar: ");
 			scanf("%d", &numeroModuloL);
+			if (numeroModuloL < 1 || numeroModuloL > 3)
+			{
+				printf("Número de módulo inválido. Debe ser 1, 2 o 3.\n");
+				break;
+			}
 			result_2 = liberarmodulo_1(&numeroModuloL, clnt);
 			if (result_2 == (bool_t *)NULL)
 			{
 				clnt_perror(clnt, "call failed");
+			}
+			else if (*result_2 == 1)
+			{
+				printf("El módulo %d ya está libre.\n", numeroModuloL);
+			}
+			else
+			{
+				printf("Módulo %d liberado correctamente.\n", numeroModuloL);
 			}
 			break;
 		case 3:
@@ -61,9 +87,9 @@ void administrar_modulos_1(char *host)
 			break;
 		}
 	} while (opcion != 3);
-	
+
 #ifndef DEBUG
-	clnt_destroy(clnt); 
+	clnt_destroy(clnt);
 #endif /* DEBUG */
 }
 

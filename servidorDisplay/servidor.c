@@ -21,9 +21,14 @@ enviarnotificacion_1_svc(notificacion *argp, struct svc_req *rqstp)
 			printf("\n %d	%d	%s ", (*argp).modulos[i].turno, (*argp).modulos[i].noModulo, (*argp).modulos[i].identificacionUsuario);
 		}
 	}
-	printf("\n Cantidad de usuarios en la fila virtual: %d", (*argp).cantidadUsuariosFilaVirtual);
+
+	if ((*argp).cantidadUsuariosFilaVirtual > 0)
+	{
+		printf("\n Cantidad de usuarios en la fila virtual: %d", (*argp).cantidadUsuariosFilaVirtual);
+	}
 	mostrarHoraUltimaActualizacion();
 	printf("\n");
+
 	return (void *)&result;
 }
 void mostrarHoraUltimaActualizacion()

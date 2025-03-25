@@ -4,87 +4,152 @@
  * as a guideline for developing your own functions.
  */
 
-#include "InterfaceClienteServidorModulos.h" 
+#include "InterfaceClienteServidorModulos.h"
 #include "InterfaceServidorModulosServidorDisplay.h"
 #include "InterfaceAdminModulosServidorModulos.h"
 #include <stdio.h>
 #include <stdbool.h>
 
-int numeroTurno=1;
-int cantidadUsuariosFila=0;
+int numeroTurno = 1;
+int cantidadUsuariosFila = 0;
 usuario filaVirtual[10];
 modulo vectorModulos[3];
+moduloAdministrador vectorModuloAdministrador[3];
 
 int consultarNumeroModuloDisponible();
 void notificarModulos();
-nodo_turno * generarturno_1_svc(char **argp, struct svc_req *rqstp)
+nodo_turno *generarturno_1_svc(char **argp, struct svc_req *rqstp)
 {
-	static nodo_turno  result;
-	int posicion=consultarNumeroModuloDisponible();
+	static nodo_turno result;
+	int posicion = consultarNumeroModuloDisponible();
 	printf("\n");
-	if(posicion==-1){
+	if (posicion == -1)
+	{
 		printf("\n Los modulos se encuentran ocupados");
 		strcpy(filaVirtual[cantidadUsuariosFila].identificacionUsuario, *argp);
 		cantidadUsuariosFila++;
 		printf("\n El usuario se agrego a la fila virtual");
 	}
-	else{
-		printf("\n El modulo en la posicion %d esta libre y se asignara al usuario con identificacion %s",(posicion+1),*argp);
-		vectorModulos[posicion].ocupado=true;
-		vectorModulos[posicion].numeroTurno=numeroTurno;
-		strcpy(vectorModulos[posicion].identificacionUsuario,*argp);
+	else
+	{
+		printf("\n El modulo en la posicion %d esta libre y se asignara al usuario con identificacion %s", (posicion + 1), *argp);
+		vectorModulos[posicion].ocupado = true;
+		vectorModulos[posicion].numeroTurno = numeroTurno;
+		strcpy(vectorModulos[posicion].identificacionUsuario, *argp);
 	}
-	result.numeroTurno=numeroTurno;
-	result.cantidadUsuariosFilaVirtual=cantidadUsuariosFila;
+	result.numeroTurno = numeroTurno;
+	result.cantidadUsuariosFilaVirtual = cantidadUsuariosFila;
 	strcpy(result.identificacionUsuario, *argp);
 	numeroTurno++;
 	notificarModulos();
 	printf("\n");
-	
+
 	return &result;
 }
 void notificarModulos()
 {
 	CLIENT *datosConexionServidor;
-	void  *resultadoEnvio;
+	void *resultadoEnvio;
 	char ipServidor[20];
 	strcpy(ipServidor, "localhost");
 
-#ifndef	DEBUG
-// Con clnt_create se obtiene la ubicación al servidor display
-	datosConexionServidor = clnt_create (ipServidor, notificar_modulos, notificar_modulos_version, "udp");
-	if (datosConexionServidor == NULL) {
-		clnt_pcreateerror (ipServidor);
-		exit (1);
+#ifndef DEBUG
+	// Con clnt_create se obtiene la ubicación al servidor display
+	datosConexionServidor = clnt_create(ipServidor, notificar_modulos, notificar_modulos_version, "udp");
+	if (datosConexionServidor == NULL)
+	{
+		clnt_pcreateerror(ipServidor);
+		exit(1);
 	}
-#endif	/* DEBUG */
-	notificacion  objNotificacion;
-	for (int i=0; i<3; i++){
+#endif /* DEBUG */
+	notificacion objNotificacion;
+	for (int i = 0; i < 3; i++)
+	{
 		strcpy(objNotificacion.modulos[i].identificacionUsuario, vectorModulos[i].identificacionUsuario);
 		objNotificacion.modulos[i].noModulo = vectorModulos[i].noModulo;
 		objNotificacion.modulos[i].turno = vectorModulos[i].numeroTurno;
 		objNotificacion.modulos[i].ocupado = vectorModulos[i].ocupado;
 	}
 	objNotificacion.cantidadUsuariosFilaVirtual = cantidadUsuariosFila;
-	//Se invoca el procedimiento remoto para enviar la notificación
+	// Se invoca el procedimiento remoto para enviar la notificación
 	resultadoEnvio = enviarnotificacion_1(&objNotificacion, datosConexionServidor);
-	if (resultadoEnvio == (void *) NULL) {
-		clnt_perror (datosConexionServidor, "call failed");
+	if (resultadoEnvio == (void *)NULL)
+	{
+		clnt_perror(datosConexionServidor, "call failed");
 	}
-#ifndef	DEBUG
-	//Se liberan recursos del lado del cliente
-#endif	 /* DEBUG */
+#ifndef DEBUG
+	// Se liberan recursos del lado del cliente
+#endif /* DEBUG */
 }
 int consultarNumeroModuloDisponible()
 {
-	int posicion=-1;
-	for (int i=0; i < 3; i++)
+	int posicion = -1;
+	for (int i = 0; i < 3; i++)
 	{
-		if(vectorModulos[i].ocupado==false)
+		if (vectorModulos[i].ocupado == false)
 		{
-			posicion=i;
+			posicion = i;
 			break;
 		}
 	}
 	return posicion;
+}
+
+int *seleccionarnumeromodulo_1_svc(int *argp, struct svc_req *rqstp)
+{
+	static int result;
+
+	if (vectorModuloAdministrador[*argp - 1].estado == 0) // Verifica si el modulos está libre
+	{
+		vectorModuloAdministrador[*argp - 1].estado = 1; // Asigna el módulo
+		result = 0;										 // Éxito
+		printf("Módulo %d asignado correctamente. \n", *argp);
+	}
+	else
+	{
+		result = 1;
+		printf("Módulo %d ya está ocupado. \n", *argp);
+	}
+
+	return &result;
+}
+
+int *liberarmodulo_1_svc(int *argp, struct svc_req *rqstp)
+{
+	static int result;
+
+	if (vectorModuloAdministrador[*argp - 1].estado == 1)
+	{													 // Verifica si el modulos está libre
+		vectorModuloAdministrador[*argp - 1].estado = 0; // Libera el módulo
+		printf("Módulo %d liberado correctamente. \n", *argp);
+		if (cantidadUsuariosFila > 0)
+		{
+			vectorModuloAdministrador[*argp - 1].estado = 1; // Asigna el módulo
+			strcpy(vectorModulos[*argp - 1].identificacionUsuario, filaVirtual[0].identificacionUsuario);
+			printf("Módulo %d asignado a usuario %s. \n", *argp, filaVirtual[0].identificacionUsuario);
+			vectorModulos[*argp - 1].numeroTurno = numeroTurno;
+			vectorModulos[*argp - 1].ocupado = true;
+			// Mueve los usuarios en la fila
+			for (int i = 0; i < cantidadUsuariosFila; i++)
+			{
+				strcpy(filaVirtual[i].identificacionUsuario, filaVirtual[i + 1].identificacionUsuario);
+			}
+			cantidadUsuariosFila--;
+			notificarModulos();
+		}
+		else
+		{
+			vectorModulos[*argp - 1].ocupado = false;
+			notificarModulos();
+		}
+
+		result = 0; // Éxito
+	}
+	else
+	{
+		result = 1;
+		printf("Módulo %d ya está libre. \n", *argp);
+	}
+
+	return &result;
 }
