@@ -10,8 +10,9 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-int numeroTurno = 1;
+int numeroTurno = 0;
 int cantidadUsuariosFila = 0;
+nodo_turno turnos[20];
 usuario filaVirtual[10];
 modulo vectorModulos[3];
 moduloAdministrador vectorModuloAdministrador[3];
@@ -21,12 +22,14 @@ void notificarModulos();
 nodo_turno *generarturno_1_svc(char **argp, struct svc_req *rqstp)
 {
 	static nodo_turno result;
+	numeroTurno++;
 	int posicion = consultarNumeroModuloDisponible();
 	printf("\n");
 	if (posicion == -1)
 	{
 		printf("\n Los modulos se encuentran ocupados");
 		strcpy(filaVirtual[cantidadUsuariosFila].identificacionUsuario, *argp);
+		filaVirtual[cantidadUsuariosFila].numeroTurnoAsignado = numeroTurno;
 		cantidadUsuariosFila++;
 		printf("\n El usuario se agrego a la fila virtual");
 	}
@@ -40,7 +43,6 @@ nodo_turno *generarturno_1_svc(char **argp, struct svc_req *rqstp)
 	result.numeroTurno = numeroTurno;
 	result.cantidadUsuariosFilaVirtual = cantidadUsuariosFila;
 	strcpy(result.identificacionUsuario, *argp);
-	numeroTurno++;
 	notificarModulos();
 	printf("\n");
 
@@ -108,7 +110,7 @@ int *seleccionarnumeromodulo_1_svc(int *argp, struct svc_req *rqstp)
 	else
 	{
 		result = 1;
-		printf("Módulo %d ya está ocupado. \n", *argp);
+		printf("Error: Módulo %d ya está ocupado. \n", *argp);
 	}
 
 	return &result;
@@ -127,12 +129,13 @@ int *liberarmodulo_1_svc(int *argp, struct svc_req *rqstp)
 			vectorModuloAdministrador[*argp - 1].estado = 1; // Asigna el módulo
 			strcpy(vectorModulos[*argp - 1].identificacionUsuario, filaVirtual[0].identificacionUsuario);
 			printf("Módulo %d asignado a usuario %s. \n", *argp, filaVirtual[0].identificacionUsuario);
-			vectorModulos[*argp - 1].numeroTurno = numeroTurno;
+			vectorModulos[*argp - 1].numeroTurno = filaVirtual[0].numeroTurnoAsignado;
 			vectorModulos[*argp - 1].ocupado = true;
 			// Mueve los usuarios en la fila
 			for (int i = 0; i < cantidadUsuariosFila; i++)
 			{
 				strcpy(filaVirtual[i].identificacionUsuario, filaVirtual[i + 1].identificacionUsuario);
+				filaVirtual[i].numeroTurnoAsignado = filaVirtual[i+1].numeroTurnoAsignado;
 			}
 			cantidadUsuariosFila--;
 			notificarModulos();
@@ -148,7 +151,7 @@ int *liberarmodulo_1_svc(int *argp, struct svc_req *rqstp)
 	else
 	{
 		result = 1;
-		printf("Módulo %d ya está libre. \n", *argp);
+		printf("Error: Módulo %d ya está libre. \n", *argp);
 	}
 
 	return &result;

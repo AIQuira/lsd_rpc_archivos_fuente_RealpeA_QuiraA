@@ -25,6 +25,7 @@ typedef struct nodo_turno nodo_turno;
 
 struct usuario {
 	char identificacionUsuario[MAXIDENTIFICACION];
+	int numeroTurnoAsignado;
 };
 typedef struct usuario usuario;
 

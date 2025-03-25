@@ -66,18 +66,23 @@ void administrar_modulos_1(char *host)
 				printf("Número de módulo inválido. Debe ser 1, 2 o 3.\n");
 				break;
 			}
-			result_2 = liberarmodulo_1(&numeroModuloL, clnt);
-			if (result_2 == (bool_t *)NULL)
+			if (numeroModulo == numeroModuloL)
 			{
-				clnt_perror(clnt, "call failed");
-			}
-			else if (*result_2 == 1)
-			{
-				printf("El módulo %d ya está libre.\n", numeroModuloL);
-			}
-			else
-			{
-				printf("Módulo %d liberado correctamente.\n", numeroModuloL);
+				result_2 = liberarmodulo_1(&numeroModuloL, clnt);
+				if (result_2 == (bool_t *)NULL)
+				{
+					clnt_perror(clnt, "call failed");
+				}
+				else if (*result_2 == 1)
+				{
+					printf("Error: El módulo %d ya está libre.\n", numeroModuloL);
+				}
+				else
+				{
+					printf("Módulo %d liberado correctamente.\n", numeroModuloL);
+				}
+			} else {
+				printf("Error: No tienes permiso para liberar el modulo %d.\n", numeroModuloL);
 			}
 			break;
 		case 3:
