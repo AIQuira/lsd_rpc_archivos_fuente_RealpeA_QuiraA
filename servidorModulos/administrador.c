@@ -10,11 +10,14 @@ int *seleccionarnumeromodulo_1_svc(int *argp, struct svc_req *rqstp)
 {
 	static int result;
 
-	if (modulos[*argp].estado == 0) { //Verifica si el modulos está libre
-		modulos[*argp].estado = 1; //Asigna el módulo
-		result = 0; //Éxito
+	if (moduloAdministrador[*argp].estado == 0) // Verifica si el modulos está libre
+	{							  
+		moduloAdministrador[*argp].estado = 1; // Asigna el módulo
+		result = 0;				  // Éxito
 		printf("Módulo %d asignado correctamente. \n", *argp);
-	} else {
+	}
+	else
+	{
 		result = 1;
 		printf("Módulo %d ya está ocupado. \n", *argp);
 	}
@@ -26,8 +29,8 @@ int *liberarmodulo_1_svc(int *argp, struct svc_req *rqstp)
 {
 	static int result;
 
-	if (modulos[*argp].estado == 1) { //Verifica si el modulos está libre
-		modulos[*argp].estado = 0; //Asigna el módulo
+	if (moduloAdministrador[*argp].estado == 1) { //Verifica si el modulos está libre
+		moduloAdministrador [*argp].estado = 0; //Asigna el módulo
 		result = 0; //Éxito
 		printf("Módulo %d liberado correctamente. \n", *argp);
 	} else {

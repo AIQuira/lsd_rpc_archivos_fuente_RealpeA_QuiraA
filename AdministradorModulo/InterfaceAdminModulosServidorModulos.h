@@ -14,11 +14,11 @@ extern "C" {
 #endif
 
 
-struct modulo {
+struct moduloAdministrador {
 	int numeroModulo;
 	int estado;
 };
-typedef struct modulo modulo;
+typedef struct moduloAdministrador moduloAdministrador;
 
 #define administrar_modulos 0x20000003
 #define administrar_modulos_version 1
@@ -45,10 +45,10 @@ extern int administrar_modulos_1_freeresult ();
 /* the xdr functions */
 
 #if defined(__STDC__) || defined(__cplusplus)
-extern  bool_t xdr_modulo (XDR *, modulo*);
+extern  bool_t xdr_moduloAdministrador (XDR *, moduloAdministrador*);
 
 #else /* K&R C */
-extern bool_t xdr_modulo ();
+extern bool_t xdr_moduloAdministrador ();
 
 #endif /* K&R C */
 

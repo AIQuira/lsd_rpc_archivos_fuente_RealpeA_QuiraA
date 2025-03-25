@@ -12,7 +12,7 @@ void administrar_modulos_1(char *host)
 	int *result_1;
 	int numeroModulo;
 	int *result_2;
-	int liberarmodulo_1_arg;
+	int numeroModuloL;
 
 #ifndef DEBUG
 	clnt = clnt_create(host, administrar_modulos, administrar_modulos_version, "udp");
@@ -47,8 +47,8 @@ void administrar_modulos_1(char *host)
 			break;
 		case 2:
 			printf("Ingrese el modulo a liberar: ");
-			scanf("%d", &numeroModulo);
-			result_2 = liberarmodulo_1(&numeroModulo, clnt);
+			scanf("%d", &numeroModuloL);
+			result_2 = liberarmodulo_1(&numeroModuloL, clnt);
 			if (result_2 == (bool_t *)NULL)
 			{
 				clnt_perror(clnt, "call failed");
@@ -61,6 +61,7 @@ void administrar_modulos_1(char *host)
 			break;
 		}
 	} while (opcion != 3);
+	
 #ifndef DEBUG
 	clnt_destroy(clnt);
 #endif /* DEBUG */

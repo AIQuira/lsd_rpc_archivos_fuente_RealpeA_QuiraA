@@ -6,13 +6,14 @@
 
 #include "InterfaceClienteServidorModulos.h" 
 #include "InterfaceServidorModulosServidorDisplay.h"
+#include "InterfaceAdminModulosServidorModulos.h"
+#include <stdio.h>
 #include <stdbool.h>
 
 int numeroTurno=1;
 int cantidadUsuariosFila=0;
 usuario filaVirtual[10];
 modulo vectorModulos[3];
-
 
 int consultarNumeroModuloDisponible();
 void notificarModulos();

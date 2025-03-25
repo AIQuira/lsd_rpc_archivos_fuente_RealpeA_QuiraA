@@ -1,7 +1,7 @@
 /*Declaración de datos a transferir entre el administrados modulos y el servidor modulos*/
 
 /*Declaracion de la estructura que permite alamcenar los datos de un modulo*/
-struct modulo{
+struct moduloAdministrador{
     int numeroModulo;
     int estado;
 };
