@@ -63,7 +63,7 @@ void administrar_modulos_1(char *host)
 	} while (opcion != 3);
 	
 #ifndef DEBUG
-	clnt_destroy(clnt);
+	clnt_destroy(clnt); 
 #endif /* DEBUG */
 }
 

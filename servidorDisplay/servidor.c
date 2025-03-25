@@ -11,34 +11,33 @@ void mostrarHoraUltimaActualizacion();
 void *
 enviarnotificacion_1_svc(notificacion *argp, struct svc_req *rqstp)
 {
-	static char * result;
+	static char *result;
 	printf("\n  Modulos disponibles");
 	printf("\n Turno modulo cliente");
-	for(int i=0;i<3;i++)
+	for (int i = 0; i < 3; i++)
 	{
-		if((*argp).modulos[i].ocupado==true)
+		if ((*argp).modulos[i].ocupado == true)
 		{
-			printf("\n %d	%d	%s ",(*argp).modulos[i].turno,(*argp).modulos[i].noModulo, (*argp).modulos[i].identificacionUsuario);	
+			printf("\n %d	%d	%s ", (*argp).modulos[i].turno, (*argp).modulos[i].noModulo, (*argp).modulos[i].identificacionUsuario);
 		}
-		
 	}
-	printf("\n Cantidad de usuarios en la fila virtual: %d",(*argp).cantidadUsuariosFilaVirtual);
+	printf("\n Cantidad de usuarios en la fila virtual: %d", (*argp).cantidadUsuariosFilaVirtual);
 	mostrarHoraUltimaActualizacion();
 	printf("\n");
-	return (void *) &result;
+	return (void *)&result;
 }
-void mostrarHoraUltimaActualizacion(){
+void mostrarHoraUltimaActualizacion()
+{
 	time_t tiempo_actual;
 	struct tm *info_tiempo;
 
 	// Obtener el tiempo actual
 	time(&tiempo_actual);
 
-	//Convertir el tiempo en una estrutura local
+	// Convertir el tiempo en una estrutura local
 	info_tiempo = localtime(&tiempo_actual);
 
-	printf("\n Ultima actualizacion: %02d:%02d\n", 
-		info_tiempo->tm_hour, //Hora 0-23
-		info_tiempo->tm_min); // Minutos 0-59
-
+	printf("\n Ultima actualizacion: %02d:%02d\n",
+		   info_tiempo->tm_hour, // Hora 0-23
+		   info_tiempo->tm_min); // Minutos 0-59
 }

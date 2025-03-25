@@ -4,7 +4,6 @@
  * as a guideline for developing your own functions.
  */
 
- 
 #include "InterfaceClienteServidorModulos.h"
 #include <stdio.h>
 
