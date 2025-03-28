@@ -49,8 +49,10 @@ void autorizar_usuarios_1(char *host)
 				printf("\n Cantidad de usuarios en fila virtual: %d", (*result_1).cantidadUsuariosFilaVirtual);
 				printf("\n");
 			}
+		} else {
+			printf("Error: Opción no válida. \n");
 		}
-	} while (opcion == 1);
+	} while (opcion != 2);
 
 #ifndef DEBUG
 	clnt_destroy(clnt);

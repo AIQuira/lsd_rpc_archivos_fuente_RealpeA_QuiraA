@@ -110,7 +110,7 @@ int *seleccionarnumeromodulo_1_svc(int *argp, struct svc_req *rqstp)
 	else
 	{
 		result = 1;
-		printf("Error: Módulo %d ya está ocupado. \n", *argp);
+		printf("Error: El módulo %d ya está ocupado. \n", *argp);
 	}
 
 	return &result;
@@ -123,12 +123,12 @@ int *liberarmodulo_1_svc(int *argp, struct svc_req *rqstp)
 	if (vectorModuloAdministrador[*argp - 1].estado == 1)
 	{													 // Verifica si el modulos está libre
 		vectorModuloAdministrador[*argp - 1].estado = 0; // Libera el módulo
-		printf("Módulo %d liberado correctamente. \n", *argp);
+		printf(" Módulo %d liberado correctamente. \n", *argp);
 		if (cantidadUsuariosFila > 0)
 		{
 			vectorModuloAdministrador[*argp - 1].estado = 1; // Asigna el módulo
 			strcpy(vectorModulos[*argp - 1].identificacionUsuario, filaVirtual[0].identificacionUsuario);
-			printf("Módulo %d asignado a usuario %s. \n", *argp, filaVirtual[0].identificacionUsuario);
+			printf(" El modulo en la posicion %d esta libre y se asignara al usuario con identificacion %s.\n", *argp, filaVirtual[0].identificacionUsuario);
 			vectorModulos[*argp - 1].numeroTurno = filaVirtual[0].numeroTurnoAsignado;
 			vectorModulos[*argp - 1].ocupado = true;
 			// Mueve los usuarios en la fila
@@ -151,7 +151,7 @@ int *liberarmodulo_1_svc(int *argp, struct svc_req *rqstp)
 	else
 	{
 		result = 1;
-		printf("Error: Módulo %d ya está libre. \n", *argp);
+		printf(" Error: El módulo %d ya está libre. \n", *argp);
 	}
 
 	return &result;

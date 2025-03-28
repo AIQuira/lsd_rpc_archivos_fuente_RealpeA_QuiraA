@@ -33,6 +33,7 @@ void administrar_modulos_1(char *host)
 		printf("      2. Liberar modulo          \n");
 		printf("      3. Salir                   \n");
 		printf("===============    ==============\n");
+		printf("Seleccione una opción: ");
 		scanf("%d", &opcion);
 		switch (opcion)
 		{
@@ -41,7 +42,7 @@ void administrar_modulos_1(char *host)
 			scanf("%d", &numeroModulo);
 			if (numeroModulo < 1 || numeroModulo > 3)
 			{
-				printf("Número de módulo inválido. Debe ser 1, 2 o 3.\n");
+				printf("Error: Número de módulo inválido. Debe ser 1, 2 o 3.\n");
 				break;
 			}
 			result_1 = seleccionarnumeromodulo_1(&numeroModulo, clnt);
@@ -51,7 +52,7 @@ void administrar_modulos_1(char *host)
 			}
 			else if (*result_1 == 1)
 			{
-				printf("El módulo %d ya se encuentra ocupado.\n", numeroModulo);
+				printf("Error: El módulo %d ya se encuentra ocupado.\n", numeroModulo);
 			}
 			else
 			{
@@ -63,7 +64,7 @@ void administrar_modulos_1(char *host)
 			scanf("%d", &numeroModuloL);
 			if (numeroModuloL < 1 || numeroModuloL > 3)
 			{
-				printf("Número de módulo inválido. Debe ser 1, 2 o 3.\n");
+				printf("Error: Número de módulo inválido. Debe ser 1, 2 o 3.\n");
 				break;
 			}
 			if (numeroModulo == numeroModuloL)
@@ -88,7 +89,7 @@ void administrar_modulos_1(char *host)
 		case 3:
 			break;
 		default:
-			printf("Opcion no valida\n");
+			printf("Error: Opcion no valida\n");
 			break;
 		}
 	} while (opcion != 3);
